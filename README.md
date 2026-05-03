@@ -66,10 +66,19 @@ The pipeline follows a modern **Lakehouse architecture (Bronze-Silver-Gold)**.
 
 ---
 
+## ⏱️ Orchestration
+
+The pipeline is designed for automated execution using **Databricks Jobs**.
+
+It can be scheduled to run daily, supporting continuous data quality monitoring and reducing manual execution effort.
+
+---
+
 ## ⚙️ Technologies
 
 * PySpark
-* Databricks (Community Edition)
+* Databricks Community Edition
+* Databricks Jobs
 * Delta Lake
 * REST API ingestion
 
@@ -81,7 +90,8 @@ The pipeline follows a modern **Lakehouse architecture (Bronze-Silver-Gold)**.
 * Bronze-Silver-Gold architecture
 * Automated data validation framework
 * Dataset-level quality scoring
-* Modular pipeline design
+* Daily pipeline execution design
+* Modular pipeline structure
 
 ---
 
@@ -98,21 +108,22 @@ The pipeline follows a modern **Lakehouse architecture (Bronze-Silver-Gold)**.
 
 The pipeline includes structured steps:
 
-1. Data ingestion (API)
+1. Data ingestion from public API
 2. Data transformation
 3. Validation checks
 4. Quality scoring
 5. Reporting output generation
+6. Daily scheduled execution using Databricks Jobs
 
 ---
 
 ## 🚀 Improvements & Future Work
 
-* Incremental data processing (process only updated datasets)
+* Incremental data processing to process only updated datasets
 * Rule-based validation engine for flexible checks
 * Alerting system for failed datasets
-* Integration with dashboard tools (e.g. Power BI)
-* Pipeline orchestration (scheduled execution)
+* Integration with dashboard tools such as Power BI
+* Production orchestration with scheduled jobs and monitoring
 
 ---
 
