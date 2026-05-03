@@ -1,67 +1,142 @@
 # Data Quality Monitoring Pipeline (Databricks & PySpark)
 
-## Overview
-This project implements a data quality monitoring pipeline inspired by real-world statistical data validation workflows.
+> Developed in Databricks using PySpark (notebook exported as .py for version control)
 
-The pipeline follows a Bronze-Silver-Gold architecture and processes public Eurostat metadata to detect quality issues and generate dataset-level scores.
+---
 
-## Architecture
+## 📌 Overview
 
-- **Bronze Layer**
-  - Ingests raw data from Eurostat public TOC API
-  - Stores metadata without transformation
+This project implements a scalable **data quality monitoring pipeline** inspired by real-world statistical data validation workflows.
 
-- **Silver Layer**
-  - Cleans and standardizes dataset metadata
-  - Filters valid datasets
-  - Creates dataset-level indicators (e.g., update status, NACE relevance)
+It processes public Eurostat metadata and applies automated validation rules, producing dataset-level quality scores and reporting-ready outputs.
 
-- **Quality Checks**
-  - Validates dataset metadata completeness
-  - Checks for missing dataset codes, titles, and update information
-  - Flags datasets failing validation rules
+This project demonstrates how data quality validation can be automated at scale using distributed data processing.
 
-- **Gold Layer**
-  - Computes data quality scores per dataset
-  - Produces summary metrics for reporting
+The pipeline follows a modern **Lakehouse architecture (Bronze-Silver-Gold)**.
 
-- **Reporting Layer**
-  - Identifies low-quality datasets
-  - Aggregates quality scores by dataset category
+---
 
-## Technologies
+## 🏗️ Architecture
 
-- PySpark
-- Databricks (Community Edition)
-- Delta Lake
-- REST API ingestion
+### 🥉 Bronze Layer — Data Ingestion
 
-## Key Features
+* Ingests raw metadata from Eurostat public TOC API
+* Stores unprocessed data
+* Adds ingestion metadata (timestamp, source)
 
-- Automated data ingestion from public API
-- Data validation framework (EMQA-inspired)
-- Dataset-level quality scoring
-- Scalable Spark-based transformations
-- Reporting-ready output tables
+---
 
-## Example Outputs
+### 🥈 Silver Layer — Transformation
 
-- Dataset quality scores (0–100)
-- Overall quality metrics
-- Quality breakdown by dataset group
+* Cleans and standardizes dataset metadata
+* Filters valid datasets
+* Creates dataset-level indicators:
 
-## How to Run
+  * Update availability
+  * Dataset classification
+  * NACE-related metadata detection
 
-1. Open notebook in Databricks Community Edition
-2. Run cells sequentially (01 → 07)
-3. Tables will be created automatically:
-   - bronze_toc
-   - silver_toc
-   - silver_quality_checks
-   - gold_quality_scores
-   - gold_quality_summary
+---
 
-## Note
+### 🔍 Data Quality Checks
 
-This project is a portfolio version inspired by production data quality pipelines.
-It uses only public data and does not include any private or internal sources.
+* Validates dataset completeness:
+
+  * Missing dataset codes
+  * Missing titles
+  * Missing update dates
+  * Missing data ranges
+* Flags datasets that fail validation rules
+
+---
+
+### 🥇 Gold Layer — Quality Scoring
+
+* Computes dataset-level quality scores (0–100)
+* Aggregates validation results
+* Produces reporting-ready tables
+
+---
+
+### 📊 Reporting Layer
+
+* Identifies low-quality datasets
+* Aggregates quality scores by dataset family
+* Provides summary metrics for monitoring
+
+---
+
+## ⚙️ Technologies
+
+* PySpark
+* Databricks (Community Edition)
+* Delta Lake
+* REST API ingestion
+
+---
+
+## ⭐ Key Features
+
+* End-to-end data pipeline using PySpark
+* Bronze-Silver-Gold architecture
+* Automated data validation framework
+* Dataset-level quality scoring
+* Modular pipeline design
+
+---
+
+## 📈 Example Outputs
+
+* Dataset quality scores
+* Failed validation datasets
+* Overall quality metrics
+* Quality distribution by dataset group
+
+---
+
+## 🔄 Pipeline Execution
+
+The pipeline includes structured steps:
+
+1. Data ingestion (API)
+2. Data transformation
+3. Validation checks
+4. Quality scoring
+5. Reporting output generation
+
+---
+
+## 🚀 Improvements & Future Work
+
+* Incremental data processing (process only updated datasets)
+* Rule-based validation engine for flexible checks
+* Alerting system for failed datasets
+* Integration with dashboard tools (e.g. Power BI)
+* Pipeline orchestration (scheduled execution)
+
+---
+
+## 📁 Project Structure
+
+```
+databricks-data-quality-pipeline/
+ ├── README.md
+ ├── mini_emqa_pipeline.py
+```
+
+---
+
+## ⚠️ Note
+
+This is a **portfolio project inspired by production data quality pipelines**.
+
+* Uses only public datasets
+* Does not include any private or internal data
+* Designed to demonstrate scalable data engineering practices
+
+---
+
+## 👩‍💻 Author
+
+Rania Antonopoulou
+Data Engineer | Data Analytics Engineer
