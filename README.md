@@ -2,6 +2,8 @@
 
 ## Overview
 
+<img width="1536" height="1024" alt="emqf_overview" src="https://github.com/user-attachments/assets/bc834216-d3a5-440d-9881-a254e96b0f38" />
+
 EMQF is a Databricks-based metadata quality monitoring framework for Eurostat/Eurobase datasets. The platform ingests public metadata APIs, applies rule-based validation checks, calculates quality scores, and stores historical monitoring results using Delta Lake.
 
 **Eurobase Metadata Quality Framework (EMQF)** is an automated metadata quality monitoring and validation framework for Eurostat/Eurobase datasets, built with **Databricks**, **PySpark**, **Delta Lake**, and public Eurostat APIs.
@@ -180,6 +182,14 @@ The framework is currently implemented as a Databricks notebook-based pipeline w
 
 ## Screenshots
 
+### Databricks Workflow
+
 ![Workflow](screenshots/workflow.png)
 
+### Final Quality Scores
+
 ![Quality Scores](screenshots/final_scores.png)
+
+### Delta Lake Tables
+
+![Delta Tables](screenshots/delta_tables.png)
