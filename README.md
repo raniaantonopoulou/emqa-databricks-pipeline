@@ -184,12 +184,15 @@ The framework is currently implemented as a Databricks notebook-based pipeline w
 
 ### Databricks Workflow
 
-![Workflow](screenshots/workflow.png)
+<img width="1707" height="678" alt="workflow" src="https://github.com/user-attachments/assets/b6abe6a9-faf0-4aa8-972e-414ad50256e3" />
+
 
 ### Final Quality Scores
 
-![Quality Scores](screenshots/final_scores.png)
+<img width="1185" height="419" alt="scores_df" src="https://github.com/user-attachments/assets/a51b9802-4b8b-4ff6-a09b-6db6130b0f3d" />
+
 
 ### Delta Lake Tables
 
-![Delta Tables](screenshots/delta_tables.png)
+<img width="310" height="378" alt="delta_tables" src="https://github.com/user-attachments/assets/e978acd6-d0ac-476f-9cc1-e0a110af1a21" />
+
