@@ -58,22 +58,17 @@ The framework answers questions such as:
 # Lakehouse Processing Flow
 
 ```text
-Eurostat APIs / SDMX / SPARQL
-                ↓
-         Raw Metadata Ingestion
-                ↓
-         Metadata Enrichment
-                ↓
-      Rule-Based Quality Checks
-                ↓
-      Dataset Quality Scoring
-                ↓
-   Delta Lake Persistence Layer
- (Historical + Latest Snapshots)
-                ↓
-      Monitoring & Reporting
-                ↓
-      Databricks SQL / Power BI
+Eurostat APIs
+        ↓
+Metadata Ingestion
+        ↓
+Validation Engine
+        ↓
+Quality Scoring
+        ↓
+Delta Lake Tables
+        ↓
+Power BI / Monitoring
 ```
 
 ---
