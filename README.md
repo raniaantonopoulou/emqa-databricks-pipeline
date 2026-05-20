@@ -51,7 +51,7 @@ The framework answers questions such as:
 
 # High-Level Architecture
 
-<img width="2055" height="1272" alt="emqf_architecture" src="https://github.com/user-attachments/assets/5b8be84b-f24e-4802-ae8f-fe6ff127f2a9" />
+![Architecture](screenshots/architecture.png)
 
 ---
 
@@ -268,16 +268,16 @@ The architecture is designed to support future modularization into reusable Pyth
 
 ## Databricks Workflow
 
-<img width="1707" height="678" alt="workflow" src="https://github.com/user-attachments/assets/b6abe6a9-faf0-4aa8-972e-414ad50256e3" />
+![Workflow](screenshots/workflow.jpg)
 
 ---
 
 ## Final Quality Scores
 
-<img width="1185" height="419" alt="scores_df" src="https://github.com/user-attachments/assets/a51b9802-4b8b-4ff6-a09b-6db6130b0f3d" />
+![Quality Scores](screenshots/quality_scores.jpg)
 
 ---
 
 ## Delta Lake Tables
 
-<img width="310" height="378" alt="delta_tables" src="https://github.com/user-attachments/assets/e978acd6-d0ac-476f-9cc1-e0a110af1a21" />
+![Delta Tables](screenshots/delta_tables.jpg)
