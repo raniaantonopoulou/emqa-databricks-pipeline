@@ -1,5 +1,0 @@
-run_schedule: "0 1 11 ? * MON-FRI"
-
-tables:
-  history_table: emqa_daily_quality_score_history
-  latest_table: emqa_daily_quality_score_latest
