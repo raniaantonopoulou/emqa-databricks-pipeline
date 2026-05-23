@@ -276,3 +276,19 @@ The architecture is designed to support future modularization into reusable Pyth
 ## Delta Lake Tables
 
 ![Delta Tables](screenshots/delta_tables.jpg)
+
+---
+
+## Dashboard & Monitoring
+
+### Metadata Quality Overview
+
+![Metadata Quality Overview](screenshots/metadata_quality_overview.png)
+
+### Historical Quality Monitoring
+
+![Historical Quality Monitoring](screenshots/historical_quality_monitoring.png)
+
+### Dataset-Level Analysis
+
+![Dataset Quality Analysis](screenshots/dataset_quality_analysis.png)
