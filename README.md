@@ -73,6 +73,112 @@ Power BI / Monitoring
 
 ---
 
+# Azure Lakehouse Implementation
+
+The framework has been extended with a cloud-based Lakehouse architecture using Microsoft Azure services.
+
+## Azure Technology Stack
+
+| Area | Technology |
+|---|---|
+| Data Platform | Azure Databricks |
+| Storage | Azure Data Lake Storage Gen2 (ADLS Gen2) |
+| Processing | PySpark |
+| Storage Format | Delta Lake |
+| Version Control | GitHub |
+| Reporting | Power BI |
+
+---
+
+## Azure Lakehouse Layers
+
+### Raw Layer
+
+Stores source metadata exactly as received from Eurostat APIs.
+
+Examples:
+
+- toc_xml
+
+### Silver Layer
+
+Stores cleaned and transformed datasets used by quality validation processes.
+
+Examples:
+
+- emqf_daily_updated_datasets
+
+### Gold Layer
+
+Stores business-ready quality monitoring outputs.
+
+Examples:
+
+- emqf_daily_quality_score_history
+- emqf_daily_quality_score_latest
+
+---
+
+## Azure Data Flow
+
+```text
+Eurostat APIs
+        ↓
+Azure Databricks (PySpark Processing)
+        ↓
+ADLS Gen2 Raw Layer
+        ↓
+ADLS Gen2 Silver Layer
+        ↓
+Validation Engine
+        ↓
+Quality Scoring
+        ↓
+ADLS Gen2 Gold Layer
+        ↓
+Power BI / Monitoring
+```
+
+---
+
+## Azure Components Implemented
+
+- Azure Databricks Workspace
+- Azure Data Lake Storage Gen2 (ADLS Gen2)
+- Delta Lake persistence
+- Raw / Silver / Gold Lakehouse architecture
+- GitHub-integrated development workflow
+- Automated metadata quality monitoring
+
+---
+
+## Azure Storage Containers
+
+The Lakehouse implementation stores data in dedicated ADLS Gen2 containers:
+
+| Container | Purpose |
+|---|---|
+| raw | Source metadata and API payloads |
+| silver | Cleaned and transformed datasets |
+| gold | Quality scores, KPIs and historical monitoring outputs |
+
+---
+
+## Portfolio Demonstration
+
+This project demonstrates practical implementation of:
+
+- Azure Databricks
+- Azure Data Lake Storage Gen2 (ADLS Gen2)
+- Delta Lake
+- Lakehouse Architecture
+- PySpark Data Engineering
+- Metadata Quality Monitoring
+- GitHub Integration
+- Data Pipeline Design
+
+---
+
 # Data Sources
 
 | Source | Purpose |
@@ -148,14 +254,14 @@ The final output includes:
 
 | Area | Technology |
 |---|---|
-| Data Platform | Databricks |
+| Data Platform | Azure Databricks |
 | Processing | PySpark, Python, Pandas |
-| Storage | Delta Lake |
+| Storage | Azure Data Lake Storage Gen2 (ADLS Gen2), Delta Lake |
 | Orchestration | Databricks Workflows |
 | APIs | Eurostat APIs, SDMX APIs, SPARQL |
 | Querying | Spark SQL / Databricks SQL |
 | Reporting | Power BI |
-| Version Control | Git |
+| Version Control | GitHub |
 | Governance | Automated metadata quality validation |
 
 ---
