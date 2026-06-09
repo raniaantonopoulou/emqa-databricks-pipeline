@@ -2,27 +2,29 @@
 
 ## Overview
 
-EMQF (Eurobase Metadata Quality Framework) is a Databricks Lakehouse pipeline for automated metadata quality monitoring of Eurostat datasets.
+EMQF (Eurobase Metadata Quality Framework) is an Azure Databricks Lakehouse solution for automated metadata quality monitoring of Eurostat datasets.
 
-The framework retrieves metadata from Eurostat APIs, applies validation rules, calculates quality scores, and stores historical monitoring results in Delta Lake tables.
+The framework leverages Azure Data Lake Storage Gen2 (ADLS Gen2), Delta Lake and PySpark to ingest, validate, score and monitor metadata quality across Eurostat datasets.
 
 ---
 
 # High-Level Architecture
 
-Eurostat APIs  
-↓  
-Metadata Ingestion  
-↓  
-Metadata Enrichment  
-↓  
-Validation Engine  
-↓  
-Quality Scoring  
-↓  
-Delta Lake Storage  
-↓  
-Dashboard / Monitoring  
+Eurostat APIs
+        ↓
+Azure Databricks (PySpark)
+        ↓
+Raw Layer (ADLS Gen2)
+        ↓
+Silver Layer (ADLS Gen2)
+        ↓
+Validation Engine
+        ↓
+Quality Scoring
+        ↓
+Gold Layer (ADLS Gen2)
+        ↓
+Power BI / Monitoring  
 
 ---
 
@@ -93,9 +95,10 @@ The pipeline runs through Databricks Workflows using scheduled execution and inc
 
 # Engineering Notes
 
-- Databricks Lakehouse architecture
+- Azure Databricks Lakehouse architecture
+- Azure Data Lake Storage Gen2 (ADLS Gen2)
 - Delta Lake persistence
+- Raw / Silver / Gold architecture
 - Hybrid Spark + Pandas processing
-- Parallel Eurostat API retrieval
-- Metadata governance-oriented validation logic
-- Historical quality score persistence
+- GitHub-integrated development workflow
+- Automated metadata quality monitoring
