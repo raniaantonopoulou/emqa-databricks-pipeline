@@ -1,0 +1,25 @@
+# Core data processing
+pyspark==3.5.1
+pandas==2.2.2
+numpy==1.26.4
+
+# Azure / ADLS
+azure-storage-file-datalake==12.15.0
+azure-identity==1.16.0
+
+# Notebook validation
+nbformat==5.10.4
+nbconvert==7.16.4
+jupyterlab==4.2.1
+
+# HTTP / APIs
+requests==2.32.3
+SPARQLWrapper==2.0.0
+
+# Linting & formatting
+flake8==7.0.0
+black==24.4.2
+
+# Testing (future use)
+pytest==8.2.2
+pytest-mock==3.14.0

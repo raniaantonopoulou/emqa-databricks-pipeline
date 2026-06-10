@@ -1,0 +1,144 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    name: Lint & Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Lint with flake8
+        run: |
+          flake8 . \
+            --count \
+            --max-line-length=120 \
+            --exclude=.git,__pycache__,.ipynb_checkpoints \
+            --statistics
+        continue-on-error: true  # Δεν αποτυγχάνει το pipeline ακόμα (soft fail)
+
+      - name: Format check with black
+        run: |
+          black --check --line-length 120 . \
+            --exclude '/(\..+|\.ipynb_checkpoints)/'
+        continue-on-error: true  # Soft fail - δείχνει προβλήματα χωρίς να σταματά
+
+  notebook-check:
+    name: Notebook Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check notebook structure with nbformat
+        run: |
+          python -c "
+          import nbformat
+          import sys
+          import glob
+
+          notebooks = glob.glob('**/*.ipynb', recursive=True)
+          errors = []
+
+          for nb_path in notebooks:
+              print(f'Checking: {nb_path}')
+              try:
+                  with open(nb_path, 'r', encoding='utf-8') as f:
+                      nb = nbformat.read(f, as_version=4)
+                  nbformat.validate(nb)
+                  print(f'  OK: {nb_path}')
+              except Exception as e:
+                  errors.append(f'{nb_path}: {e}')
+                  print(f'  ERROR: {e}')
+
+          if errors:
+              print('\nFailed notebooks:')
+              for err in errors:
+                  print(f'  - {err}')
+              sys.exit(1)
+          else:
+              print(f'\nAll {len(notebooks)} notebook(s) are valid.')
+          "
+
+      - name: Check for sensitive data in notebooks
+        run: |
+          python -c "
+          import json
+          import glob
+          import re
+          import sys
+
+          # Patterns που υποδηλώνουν credentials
+          sensitive_patterns = [
+              r'account_key\s*=\s*[\"\'][^\"\']{10,}',
+              r'connection_string\s*=\s*[\"\'][^\"\']{20,}',
+              r'DefaultEndpointsProtocol=https',
+              r'AccountKey=[A-Za-z0-9+/]{50,}',
+              r'SAS Token',
+              r'abfss://[^@]+@[^.]+\.dfs\.core\.windows\.net',
+          ]
+
+          notebooks = glob.glob('**/*.ipynb', recursive=True)
+          found_issues = []
+
+          for nb_path in notebooks:
+              with open(nb_path, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              for pattern in sensitive_patterns:
+                  if re.search(pattern, content, re.IGNORECASE):
+                      found_issues.append(f'{nb_path}: matched pattern [{pattern[:40]}...]')
+
+          if found_issues:
+              print('WARNING: Potential sensitive data found:')
+              for issue in found_issues:
+                  print(f'  - {issue}')
+              # Warning only, δεν fail-άρουμε hard
+          else:
+              print('No sensitive data patterns detected.')
+          "
+
+  security-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history για καλύτερο scanning
+
+      - name: Run Gitleaks secret scanner
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true  # Report only
