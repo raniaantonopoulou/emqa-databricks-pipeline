@@ -12,6 +12,16 @@ Unlike traditional reporting-focused analytics projects, EMQF focuses on operati
 
 ---
 
+## Project Highlights
+
+- Processes metadata for 160+ daily updated Eurostat datasets
+- Executes 11 automated metadata quality validation checks
+- Stores historical quality monitoring results in Delta Lake
+- Built using Azure Databricks, ADLS Gen2, PySpark and Delta Lake
+- Supports automated scheduled execution through Databricks Workflows
+
+---
+
 # Business Problem
 
 Large-scale statistical metadata ecosystems frequently contain:
@@ -52,24 +62,6 @@ The framework answers questions such as:
 # High-Level Architecture
 
 ![Architecture](screenshots/architecture.png)
-
----
-
-# Lakehouse Processing Flow
-
-```text
-Eurostat APIs
-        ↓
-Metadata Ingestion
-        ↓
-Validation Engine
-        ↓
-Quality Scoring
-        ↓
-Delta Lake Tables
-        ↓
-Power BI / Monitoring
-```
 
 ---
 
@@ -152,33 +144,6 @@ Power BI / Monitoring
 
 ---
 
-## Azure Storage Containers
-
-The Lakehouse implementation stores data in dedicated ADLS Gen2 containers:
-
-| Container | Purpose |
-|---|---|
-| raw | Source metadata and API payloads |
-| silver | Cleaned and transformed datasets |
-| gold | Quality scores, KPIs and historical monitoring outputs |
-
----
-
-## Portfolio Demonstration
-
-This project demonstrates practical implementation of:
-
-- Azure Databricks
-- Azure Data Lake Storage Gen2 (ADLS Gen2)
-- Delta Lake
-- Lakehouse Architecture
-- PySpark Data Engineering
-- Metadata Quality Monitoring
-- GitHub Integration
-- Data Pipeline Design
-
----
-
 # Data Sources
 
 | Source | Purpose |
@@ -228,12 +193,12 @@ This project demonstrates practical implementation of:
 
 | Table | Description |
 |---|---|
-| `emqa_daily_updated_datasets` | Datasets updated in the current run |
-| `emqa_daily_datasets_enriched` | Daily datasets enriched with SPARQL metadata |
-| `emqa_dimensions_metadata` | Enriched dimensions and codelist metadata |
-| `emqa_daily_quality_checks` | Dataset-level quality check results |
-| `emqa_daily_quality_score_history` | Historical daily quality scores |
-| `emqa_daily_quality_score_latest` | Latest quality score snapshot |
+| `emqf_daily_updated_datasets` | Datasets updated in the current run |
+| `emqf_daily_datasets_enriched` | Daily datasets enriched with SPARQL metadata |
+| `emqf_dimensions_metadata` | Enriched dimensions and codelist metadata |
+| `emqf_daily_quality_checks` | Dataset-level quality check results |
+| `emqf_daily_quality_score_history` | Historical daily quality scores |
+| `emqf_daily_quality_score_latest` | Latest quality score snapshot |
 
 ---
 
@@ -357,11 +322,15 @@ Quartz cron expression:
 
 ---
 
-# Current Status
+## Example Outputs
 
-The framework currently operates as a Databricks notebook-based pipeline with scheduled weekday execution and Delta Lake persistence.
+The framework produces:
 
-The architecture is designed to support future modularization into reusable Python packages and more Spark-native distributed processing components.
+- Daily metadata quality scores
+- Dataset-level validation results
+- Historical quality monitoring trends
+- Failed validation conditions per dataset
+- Monitoring tables for reporting and analytics
 
 ---
 
