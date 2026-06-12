@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   lint:
@@ -33,13 +34,13 @@ jobs:
             --max-line-length=120 \
             --exclude=.git,__pycache__,.ipynb_checkpoints \
             --statistics
-        continue-on-error: true  # Δεν αποτυγχάνει το pipeline ακόμα (soft fail)
+        continue-on-error: true
 
       - name: Format check with black
         run: |
           black --check --line-length 120 . \
             --exclude '/(\..+|\.ipynb_checkpoints)/'
-        continue-on-error: true  # Soft fail - δείχνει προβλήματα χωρίς να σταματά
+        continue-on-error: true
 
   notebook-check:
     name: Notebook Validation
@@ -93,12 +94,9 @@ jobs:
       - name: Check for sensitive data in notebooks
         run: |
           python -c "
-          import json
           import glob
           import re
-          import sys
 
-          # Patterns που υποδηλώνουν credentials
           sensitive_patterns = [
               r'account_key\s*=\s*[\"\'][^\"\']{10,}',
               r'connection_string\s*=\s*[\"\'][^\"\']{20,}',
@@ -122,7 +120,6 @@ jobs:
               print('WARNING: Potential sensitive data found:')
               for issue in found_issues:
                   print(f'  - {issue}')
-              # Warning only, δεν fail-άρουμε hard
           else:
               print('No sensitive data patterns detected.')
           "
@@ -135,10 +132,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history για καλύτερο scanning
+          fetch-depth: 0
 
       - name: Run Gitleaks secret scanner
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true  # Report only
+        continue-on-error: true
