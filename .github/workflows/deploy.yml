@@ -1,0 +1,52 @@
+name: CD - Deploy to Production
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DATABRICKS_BUNDLE_TARGET: prod
+
+jobs:
+  deploy:
+    name: Deploy validated pipeline to production
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate Databricks bundle
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          databricks bundle validate -t $DATABRICKS_BUNDLE_TARGET
+
+      - name: Deploy Databricks bundle to production
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          databricks bundle deploy -t $DATABRICKS_BUNDLE_TARGET
+
+      - name: Post-deploy note
+        run: |
+          echo "Deployment completed."
+          echo "The scheduled production Databricks jobs at 01:00 and 11:00 will run the deployed version."
