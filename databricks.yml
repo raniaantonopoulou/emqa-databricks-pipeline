@@ -1,0 +1,14 @@
+bundle:
+  name: emqf
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-7405614178560341.1.azuredatabricks.net
+
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-7405614178560341.1.azuredatabricks.net
