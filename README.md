@@ -79,6 +79,8 @@ The framework has been extended with a cloud-based Lakehouse architecture using 
 | Storage Format | Delta Lake |
 | Version Control | GitHub |
 | Reporting | Power BI |
+| Orchestration | Azure Data Factory, Databricks Workflows |
+| Data Warehouse | Snowflake |
 
 ---
 
@@ -116,19 +118,23 @@ Examples:
 ```text
 Eurostat APIs
         ↓
+Azure Data Factory (Orchestration)
+        ↓
 Azure Databricks (PySpark Processing)
         ↓
-ADLS Gen2 Raw Layer
+ADLS Gen2 Lakehouse
+(Raw → Silver → Gold)
         ↓
-ADLS Gen2 Silver Layer
+Snowflake Data Warehouse
+(Star Schema)
         ↓
-Validation Engine
+Monitoring & Analytics
+        ├── Domain Health
+        ├── Score Changes
+        ├── SLA Status
+        └── Alerts
         ↓
-Quality Scoring
-        ↓
-ADLS Gen2 Gold Layer
-        ↓
-Power BI / Monitoring
+Power BI Reporting
 ```
 
 ---
@@ -141,6 +147,87 @@ Power BI / Monitoring
 - Raw / Silver / Gold Lakehouse architecture
 - GitHub-integrated development workflow
 - Automated metadata quality monitoring
+- Snowflake analytical warehouse
+- Star schema dimensional model
+- Quality monitoring and alerting layer
+
+---
+
+# Snowflake Data Warehouse
+
+The framework has been extended with a Snowflake-based analytical warehouse layer for quality monitoring, trend analysis and governance reporting.
+
+## Snowflake Architecture
+
+The EMQF analytical warehouse extends the Databricks Lakehouse with a Snowflake dimensional model for quality monitoring, trend analysis, SLA tracking and governance reporting.
+
+### Architecture Flow
+
+```text
+Azure Data Factory
+          │
+          ▼
+Azure Databricks
+          │
+          ▼
+EMQF Quality Score History
+          │
+          ▼
+Snowflake Data Warehouse
+          │
+          ├── DIM_DATASET
+          ├── DIM_DOMAIN
+          ├── DIM_DATE
+          ├── DIM_QUALITY_CHECK
+          │
+          ├── FACT_QUALITY_SCORE
+          └── FACT_QUALITY_CHECK_RESULT
+                    │
+                    ▼
+      Monitoring & Analytics Layer
+          ├── EMQF_DOMAIN_HEALTH
+          ├── EMQF_SCORE_CHANGES
+          ├── EMQF_ALERTS
+          └── EMQF_SLA_STATUS
+```
+
+## Star Schema Design
+
+### Dimensions
+
+- DIM_DATASET
+- DIM_DOMAIN
+- DIM_DATE
+- DIM_QUALITY_CHECK
+
+### Fact Tables
+
+- FACT_QUALITY_SCORE
+- FACT_QUALITY_CHECK_RESULT
+
+---
+
+## Monitoring Capabilities
+
+- Dataset-level quality monitoring
+- Domain-level quality monitoring
+- Quality score trend analysis
+- Quality degradation detection
+- SLA compliance tracking
+- Check-level root cause analysis
+
+---
+
+## Business Value
+
+The Snowflake warehouse enables:
+
+- Historical quality monitoring across Eurostat datasets
+- Automated quality score trend analysis
+- Detection of quality degradation and metadata inconsistencies
+- SLA monitoring and governance reporting
+- Check-level root cause analysis for metadata quality issues
+- Analytical reporting through a dimensional Star Schema model
 
 ---
 
@@ -222,12 +309,13 @@ The final output includes:
 | Data Platform | Azure Databricks |
 | Processing | PySpark, Python, Pandas |
 | Storage | Azure Data Lake Storage Gen2 (ADLS Gen2), Delta Lake |
-| Orchestration | Databricks Workflows |
+| Orchestration | Azure Data Factory, Databricks Workflows |
 | APIs | Eurostat APIs, SDMX APIs, SPARQL |
 | Querying | Spark SQL / Databricks SQL |
 | Reporting | Power BI |
 | Version Control | GitHub |
 | Governance | Automated metadata quality validation |
+| Data Warehouse | Snowflake |
 
 ---
 
@@ -300,7 +388,7 @@ Planned improvements include:
 - Add CI/CD for deployment workflows
 - Implement Delta MERGE logic for idempotent history writes
 - Introduce Airflow orchestration support
-- Add anomaly detection and alerting mechanisms
+- Extend anomaly detection and alerting mechanisms
 
 ---
 
